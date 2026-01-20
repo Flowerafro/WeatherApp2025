@@ -1,0 +1,327 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: #1a1a1a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  /*  width: 100vw;
+  height: 100vh; */
+  overflow: hidden;
+  background: linear-gradient(135deg, #222e43 0%, #262535 100%);
+  background-size: cover;
+  /* Fix: Ensure body allows flexible content alignment */
+  display: flex;
+}
+
+/* App Container */
+.app-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  background: transparent !important;
+  /* Allow WeatherScene to show through */
+}
+
+/* Landing Mode - Perfect Centering */
+.landing-mode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Ensure it takes full size of body/root to center content */
+  flex: 1;
+}
+
+.landing-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Search Form (Shared) */
+.search-form {
+  position: relative;
+  z-index: 10;
+  /* Ensure on top */
+  display: flex;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.landing-mode .search-form {
+  transform: scale(1.2);
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: white;
+  pointer-events: none;
+  z-index: 100;
+  /* Size set by icon library now, but keep for fallback/alignment */
+}
+
+.search-icon svg {
+  stroke: white !important;
+  fill: white !important;
+  display: block;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.search-input {
+  padding: 0.8rem 1.2rem 0.8rem 3rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(16, 11, 11, 0.1);
+  backdrop-filter: blur(70px);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: background 0.2s;
+}
+
+.search-input:focus {
+  background: rgba(247, 241, 241, 0.15);
+  color: white;
+}
+
+.search-button {
+  margin-left: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 99px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Suggestions Dropdown */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: rgba(101, 85, 85, 0.3);
+  backdrop-filter: blur(90px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.suggestion-item {
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  color: white;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  text-align: left;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Dashboard Mode */
+.dashboard-mode {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+}
+
+/* Header - TOP LEFT Alignment as requested */
+.dashboard-header {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Main Viewport */
+.dashboard-main {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  /* Top alignment */
+  justify-content: flex-start;
+  /* Left alignment */
+  padding-left: 4rem;
+  padding-top: 1rem;
+}
+
+/* Weather Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 2.5rem;
+  color: white;
+  min-width: 320px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 10;
+  /* Ensure on top */
+}
+
+.main-temp {
+  font-size: 5.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-left: -4px;
+}
+
+.main-condition {
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.9;
+  text-transform: capitalize;
+  margin-top: 0.2rem;
+}
+
+.main-activity {
+  font-size: 1.1rem;
+  font-style: italic;
+  opacity: 0.9;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  line-height: 1.4;
+  color: #ffd700;
+}
+
+/* Data Dock (Bottom) */
+.data-dock {
+  background: rgba(16, 11, 11, 0.3);
+  backdrop-filter: blur(70px);
+  color: white;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  width: 100%;
+  height: 220px;
+  z-index: 10;
+  /* Ensure on top */
+}
+
+.dock-section {
+  flex: 1;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.dock-left {
+  justify-content: space-around;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.forecast-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+
+.forecast-temp {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.dock-right {
+  justify-content: center;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 4rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

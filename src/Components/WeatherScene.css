@@ -1,0 +1,122 @@
+/* WeatherScene.css */
+
+.weather-scene-container {
+    position: fixed;
+    /* Changed from absolute to fixed for robust coverage */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    /*    z-index: -1; */
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateZ(0);
+    /* Hardware acceleration */
+}
+
+/* Sky Background handled via inline style motion, but ensure base reset */
+.sky-background {
+    /* props handle bg */
+}
+
+/* Components */
+.celestial-body {
+    position: absolute;
+    width: 15vw;
+    height: 15vw;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+/* Sun Positioning */
+.sun {
+    top: 10%;
+    right: 10%;
+}
+
+/* Moon Positioning */
+.moon {
+    top: 10%;
+    right: 15%;
+}
+
+/* Aurora Container */
+.aurora-container {
+    pointer-events: none;
+}
+
+/* Stars Container */
+.stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Organic Clouds */
+.cloud-organic {
+    pointer-events: none;
+    /* Framer motion handles transform/position */
+}
+
+/* Precipitation Styles */
+/* Rain */
+.rain {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    top: -20px;
+    animation: fall linear infinite;
+}
+
+/* Snow */
+.snow {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    top: -10px;
+    filter: blur(1px);
+    animation: fallSnow linear infinite;
+}
+
+/* Lightning */
+.lightning-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+
+/* Keyframes for Precipitation (Still CSS driven for performance on many particles) */
+@keyframes fall {
+    0% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(110vh);
+    }
+}
+
+@keyframes fallSnow {
+    0% {
+        transform: translateY(-10px) translateX(0);
+    }
+
+    50% {
+        transform: translateY(50vh) translateX(20px);
+    }
+
+    100% {
+        transform: translateY(110vh) translateX(-20px);
+    }
+}
