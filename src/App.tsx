@@ -35,6 +35,7 @@ function App() {
       const weatherData = await fetchWeatherData(coords.lat, coords.lon);
 
       setWeather(weatherData);
+      console.log(weatherData);
 
       const weatherKey = getWeatherKey(weatherData, weatherData.current.is_day === 1);
       const matchedActivity = activities[weatherKey] || "Enjoy the weather!";
@@ -56,15 +57,14 @@ function App() {
         <WeatherScene
           weatherCode={weather.current.weather_code}
           isDay={weather.current.is_day === 1}
-          time={new Date(weather.current.time)}
+          time={weather?.current?.time ? new Date(weather.current.time) : new Date()}
           windSpeed={weather.current.wind_speed_10m}
           precipitationAmount={weather.current.rain + weather.current.showers + weather.current.snowfall}
           cloudCover={weather.current.cloud_cover}
           lat={lat}
+          apparentTemperature={weather.current.apparent_temperature}
         />
       )}
-
-      {/* Landing View */}
       {view === 'landing' ? (
         <>
           <h1 className="landing-title">What's the weather like?</h1>
@@ -72,20 +72,14 @@ function App() {
           {error && <p style={{ color: '#ff6b6b', marginTop: '1rem', position: 'absolute', bottom: '20%' }}>{error}</p>}
         </>
       ) : (
-        /* Dashboard Layout */
         <>
-          {/* Header: Top Left */}
           <div className="dashboard-header">
             <h1>{displayedCity}</h1>
             <SearchBar onSearch={handleSearch} loading={loading} small={true} placeholder="Search city..." />
           </div>
-
-          {/* Main Center Viewport - Card High-Top-Left */}
           <div className="dashboard-main">
             <WeatherCard weather={weather} activity={activity} location={displayedCity} />
           </div>
-
-          {/* Data Dock */}
           <WeatherDock weather={weather} />
         </>
       )}

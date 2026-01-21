@@ -32,7 +32,7 @@ body {
   /*  width: 100vw;
   height: 100vh; */
   overflow: hidden;
-  background: linear-gradient(135deg, #222e43 0%, #262535 100%);
+  background: transparent;
   background-size: cover;
   /* Fix: Ensure body allows flexible content alignment */
   display: flex;
