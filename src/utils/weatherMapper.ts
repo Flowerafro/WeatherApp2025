@@ -13,7 +13,7 @@ export interface WeatherData {
 export const getWeatherKey = (weather: WeatherData, isDay: boolean): string => {
     // Condition (WMO codes)
     const code = weather.current.weather_code;
-    let condition = "sunny"; // default
+    let condition = "sunny";
 
     if (code === 0 || code === 1) {
         if (!isDay) condition = "clear-night";

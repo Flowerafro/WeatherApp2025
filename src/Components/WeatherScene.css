@@ -60,7 +60,6 @@
 /* Organic Clouds */
 .cloud-organic {
     pointer-events: none;
-    /* Framer motion handles transform/position */
 }
 
 /* Precipitation Styles */
