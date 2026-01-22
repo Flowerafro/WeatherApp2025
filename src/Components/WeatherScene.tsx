@@ -137,7 +137,7 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
     );
 
     const renderFrost = () => {
-        if (apparentTemperature > 0) return null;
+        if (apparentTemperature >= 0) return null;
         return (
             <div className="frost-overlay active">
                 {frostCrystals.map(c => (

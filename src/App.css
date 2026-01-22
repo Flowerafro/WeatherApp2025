@@ -31,12 +31,9 @@ body,
 body {
   margin: 0;
   padding: 0;
-  /*  width: 100vw;
-  height: 100vh; */
   overflow: hidden;
   background: transparent;
   background-size: cover;
-  /* Fix: Ensure body allows flexible content alignment */
   display: flex;
 }
 
@@ -47,7 +44,6 @@ body {
   position: relative;
   transition: all 0.5s ease-in-out;
   background: transparent !important;
-  /* Allow WeatherScene to show through */
 }
 
 /* Landing Mode - Perfect Centering */
@@ -56,7 +52,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* Ensure it takes full size of body/root to center content */
   flex: 1;
 }
 
@@ -72,7 +67,6 @@ body {
 .search-form {
   position: relative;
   z-index: 10;
-  /* Ensure on top */
   display: flex;
   align-items: center;
   transition: all 0.5s ease-in-out;
@@ -95,7 +89,6 @@ body {
   color: white;
   pointer-events: none;
   z-index: 100;
-  /* Size set by icon library now, but keep for fallback/alignment */
 }
 
 .search-icon svg {
@@ -112,7 +105,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(16, 11, 11, 0.1);
   backdrop-filter: blur(70px);
-  color: white;
+  color: #fff;
   font-size: 1rem;
   outline: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -122,7 +115,16 @@ body {
 
 .search-input:focus {
   background: rgba(247, 241, 241, 0.15);
-  color: white;
+  color: #fff;
+}
+
+.search-input:hover {
+  background: rgba(247, 241, 241, 0.15);
+}
+
+.search-input::placeholder {
+  color: #fff;
+  opacity: 0.7;
 }
 
 .search-button {
@@ -211,7 +213,7 @@ body {
 
 /* Weather Card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(163, 163, 163, 0.5);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 24px;
@@ -224,7 +226,6 @@ body {
   gap: 0.5rem;
   z-index: 10;
   max-width: 500px;
-  /* Ensure on top */
 }
 
 .main-temp {
@@ -259,16 +260,13 @@ body {
   color: #272724;
 }
 
-.local-clock {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  text-align: right;
-}
-
 .location {
   font-weight: 600;
   color: #221f0d;
+}
+
+.weather-icon {
+  filter: drop-shadow(0 0 10px rgba(18, 18, 18, 0.8));
 }
 
 /* Data Dock (Bottom) */
@@ -279,9 +277,8 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   width: 100%;
-  height: 220px;
+  height: 200px;
   z-index: 10;
-  /* Ensure on top */
 }
 
 .dock-section {
