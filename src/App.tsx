@@ -35,9 +35,11 @@ function App() {
       const weatherData = await fetchWeatherData(coords.lat, coords.lon);
 
       setWeather(weatherData);
-      console.log(weatherData);
+      console.log('Current Time Data:', weatherData);
 
       const weatherKey = getWeatherKey(weatherData, weatherData.current.is_day === 1);
+      console.log('Final Activity Key:', weatherKey);
+
       const matchedActivity = activities[weatherKey] || "Enjoy the weather!";
       setActivity(matchedActivity);
 
@@ -51,18 +53,21 @@ function App() {
     }
   };
 
+  const validDate = weather?.current?.time ? new Date(weather.current.time) : new Date();
+
   return (
     <div className={`app-container ${view === 'landing' ? 'landing-mode' : 'dashboard-mode'}`}>
       {weather && (
         <WeatherScene
           weatherCode={weather.current.weather_code}
           isDay={weather.current.is_day === 1}
-          time={weather?.current?.time ? new Date(weather.current.time) : new Date()}
+          time={validDate}
           windSpeed={weather.current.wind_speed_10m}
           precipitationAmount={weather.current.rain + weather.current.showers + weather.current.snowfall}
           cloudCover={weather.current.cloud_cover}
           lat={lat}
           apparentTemperature={weather.current.apparent_temperature}
+          temperature={weather.current.temperature_2m}
         />
       )}
       {view === 'landing' ? (

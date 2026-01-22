@@ -1,16 +1,17 @@
 export interface WeatherData {
     current: {
         weather_code: number;
+        temperature_2m: number;
         wind_speed_10m: number;
         rain: number;
         showers: number;
         snowfall: number;
-        time: Date | string; // Handle both Date objects and string types if needed
+        time: Date | string;
     };
 }
 
 export const getWeatherKey = (weather: WeatherData, isDay: boolean): string => {
-    // 1. Condition (WMO codes)
+    // Condition (WMO codes)
     const code = weather.current.weather_code;
     let condition = "sunny"; // default
 
@@ -25,16 +26,18 @@ export const getWeatherKey = (weather: WeatherData, isDay: boolean): string => {
     else if ((code >= 70 && code <= 79) || (code >= 85 && code <= 86)) condition = "snowy";
     else if (code >= 95 && code <= 99) condition = "thunder";
 
-    // Windy override? (Example: if wind is very high, maybe condition becomes 'windy' 
-    // or we just handle it via intensity. The prompt asked for 'windy' as a condition map, 
-    // but WMO codes don't have a specific 'windy' code without precipitation usually, 
-    // except perhaps contextually. Let's stick to clear WMO mappings for now, 
-    // but if wind speed is extreme we could force 'windy'.)
     if (weather.current.wind_speed_10m > 30 && condition === "sunny") {
         condition = "windy";
     }
 
-    // 2. Intensity (Light, Medium, Heavy)
+    // Temperature Level (NY LOGIKK)
+    const temp = weather.current.temperature_2m;
+    let tempLevel = "mild"; // 10°C til 25°C
+    if (temp >= 25) tempLevel = "hot";
+    else if (temp <= 0) tempLevel = "freezing";
+    else if (temp < 10) tempLevel = "cold";
+
+    // Intensity (Light, Medium, Heavy)
     // Based on wind or precipitation amounts
     let intensity = "light";
     const windSpeed = weather.current.wind_speed_10m;
@@ -46,15 +49,15 @@ export const getWeatherKey = (weather: WeatherData, isDay: boolean): string => {
         intensity = "medium";
     }
 
-    // 3. Time of Day
+    // Time of Day
     const date = new Date(weather.current.time);
     const hour = date.getHours();
     let timeOfDay = "night";
 
-    if (hour >= 6 && hour < 12) timeOfDay = "morning";
-    else if (hour >= 12 && hour < 18) timeOfDay = "noon";
-    else if (hour >= 18 && hour < 24) timeOfDay = "evening";
+    if (hour >= 6 && hour < 10) timeOfDay = "morning";
+    else if (hour >= 10 && hour < 14) timeOfDay = "noon";
+    else if (hour >= 14 && hour < 21) timeOfDay = "evening";
     // else night (0-6)
 
-    return `${condition}_${intensity}_${timeOfDay}`;
+    return `${condition}_${intensity}_${tempLevel}_${timeOfDay}`;
 };

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { getWeatherKey } from '../utils/weatherMapper';
 
 interface WeatherCardProps {
@@ -14,30 +13,11 @@ export const WeatherCard = ({ weather, activity }: WeatherCardProps) => {
     // So the Location Name (H2) I added previously should likely be REMOVED from here and controlled by App.tsx in the header.
     // I will remove the 'location' h2 from here to strictly follow "Top-Left Header: Location name and search bar".
 
-    const [localTime, setLocalTime] = useState<string>('');
+    // Safe time parsing from SDK
+    const displayTime = weather?.current?.time instanceof Date ? weather.current.time : new Date(weather?.current?.time);
+    const isValidDate = !isNaN(displayTime.getTime());
+    const formattedTime = isValidDate ? displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--';
 
-    useEffect(() => {
-        if (!weather) return;
-
-        const updateTime = () => {
-            // weather.utcOffsetSeconds is the offset in seconds from UTC.
-            // We want to display the current time in that timezone.
-
-            // Current UTC time in ms
-            const now = new Date();
-            const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-
-            // Target city time
-            const cityTime = new Date(utcMs + (weather.utcOffsetSeconds * 1000));
-
-            setLocalTime(cityTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
-        };
-
-        updateTime();
-        const interval = setInterval(updateTime, 1000); // Update every second
-
-        return () => clearInterval(interval);
-    }, [weather]);
 
     if (!weather) return null;
 
@@ -47,8 +27,8 @@ export const WeatherCard = ({ weather, activity }: WeatherCardProps) => {
 
     return (
         <div className="glass-card main-weather-card">
-            <div className="local-clock" style={{ fontSize: '1.2rem', fontWeight: 500, opacity: 0.8, marginBottom: '1rem', textAlign: 'right' }}>
-                {localTime}
+            <div className="local-clock">
+                {formattedTime}
             </div>
 
             <div className="main-temp">{Math.round(weather.current.temperature_2m)}°</div>

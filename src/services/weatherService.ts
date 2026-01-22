@@ -22,6 +22,7 @@ export const fetchWeatherData = async (lat: number, lon: number) => {
     const sunset = daily.variables(2)!;
 
     const weatherData = {
+        utcOffsetSeconds,
         current: {
             time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
             weather_code: current.variables(0)!.value(),
@@ -108,6 +109,5 @@ export const fetchWeatherData = async (lat: number, lon: number) => {
             et0_fao_evapotranspiration: daily.variables(17)!.valuesArray(),
         },
     };
-
     return weatherData;
 };

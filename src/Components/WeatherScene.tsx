@@ -12,6 +12,7 @@ interface WeatherSceneProps {
     cloudCover: number;
     lat: number;
     apparentTemperature: number;
+    temperature: number;
 }
 
 const WeatherScene: React.FC<WeatherSceneProps> = ({
@@ -22,7 +23,8 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
 
     cloudCover,
     lat,
-    apparentTemperature
+    apparentTemperature,
+    temperature
 }) => {
     console.log('WeatherScene Props:', { weatherCode, isDay, time, windSpeed });
 
@@ -145,6 +147,8 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
         );
     };
 
+
+
     const renderAurora = () => (
         <div className="aurora-container" style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.6, overflow: 'hidden' }}>
             <motion.div
@@ -195,8 +199,87 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
         </div>
     );
 
+    const renderHeatWave = () => {
+        const isHot = temperature >= 29;
+        if (!isHot) return null;
+
+        return (
+            <motion.div
+                className="heat-wave-overlay"
+                animate={{
+                    opacity: [0.2, 0.6, 0.2],
+                    scale: [1, 1.1, 1],
+                }}
+                transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'radial-gradient(circle at 70% 100%, rgba(255, 140, 0, 0.71), transparent 40%)',
+                    mixBlendMode: 'multiply',
+                    filter: 'blur(30px)'
+                }}
+            />
+        );
+    };
+
+    const renderLightning = () => (
+        <AnimatePresence>
+            {showLightning && (
+                <>
+                    <motion.div
+                        className="lightning-flash-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: [0, 0.6, 0.2, 0.8, 0] }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                            position: 'fixed',
+                            inset: 0,
+                            background: 'white',
+                            zIndex: 25,
+                            pointerEvents: 'none',
+                            mixBlendMode: 'overlay'
+                        }}
+                    />
+                    <motion.svg
+                        viewBox="0 0 50 300"
+                        className="lightning-bolt"
+                        initial={{ opacity: 0, pathLength: 0 }}
+                        animate={{ opacity: [0, 1, 0, 1, 0], pathLength: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                            position: 'absolute',
+                            top: '5%',
+                            left: `${20 + Math.random() * 60}%`,
+                            width: '100px',
+                            height: '400px',
+                            zIndex: 26,
+                            filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 30px rgba(200, 220, 255, 0.6))',
+                            overflow: 'visible',
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        <motion.path
+                            d="M30,0 L25,80 L35,80 L20,150 L30,150 L15,300"
+                            stroke="white"
+                            strokeWidth="4"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </motion.svg>
+                </>
+            )}
+        </AnimatePresence>
+    );
+
     return (
-        <div className="weather-scene-container" style={{
+        <div className={`weather-scene-container ${temperature >= 29 ? 'heat-active' : ''}`} style={{
             filter: `contrast(${1 - signature.mistOpacity * 0.3})`,
             overflow: 'hidden',
             width: '100%',
@@ -227,7 +310,7 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
             {/* Clouds */}
             {cloudData.map(cloud => (
                 <motion.div key={cloud.id} className="cloud-organic" initial={{ x: -200 }} animate={{ x: '120vw' }} transition={{ duration: cloud.duration, repeat: Infinity, ease: "linear", delay: cloud.delay }} style={{ position: 'absolute', top: `${cloud.top}%`, zIndex: 5, opacity: signature.cloudOpacity, transform: `scale(${cloud.scale})`, filter: `blur(${signature.cloudBlur}px)` }}>
-                    <svg width="200" height="120" viewBox="0 0 200 120" fill={isDay ? '#FFFFFF' : 'rgba(40, 40, 60, 0.85)'}>
+                    <svg width="300" height="120" viewBox="0 0 200 120" fill={isDay ? '#FFFFFF' : 'rgba(40, 40, 60, 0.85)'}>
                         <circle cx="50" cy="80" r="40" /><circle cx="90" cy="60" r="50" /><circle cx="140" cy="80" r="40" /><ellipse cx="100" cy="90" rx="80" ry="30" />
                     </svg>
                 </motion.div>
@@ -240,10 +323,8 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
 
             {renderFrost()}
             {showAurora && renderAurora()}
-
-            <AnimatePresence>
-                {showLightning && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.8 }} exit={{ opacity: 0 }} className="lightning-flash" style={{ zIndex: 25, background: 'white' }} />}
-            </AnimatePresence>
+            {renderHeatWave()}
+            {renderLightning()}
         </div>
     );
 };

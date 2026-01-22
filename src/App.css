@@ -221,6 +221,7 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   z-index: 10;
+  max-width: 500px;
   /* Ensure on top */
 }
 
@@ -229,6 +230,7 @@ body {
   font-weight: 700;
   line-height: 1;
   margin-left: -4px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
 .main-condition {
@@ -242,12 +244,20 @@ body {
 .main-activity {
   font-size: 1.1rem;
   font-style: italic;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   opacity: 0.9;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   line-height: 1.4;
-  color: #ffd700;
+  color: #221f0d;
+}
+
+.local-clock {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: right;
 }
 
 /* Data Dock (Bottom) */
