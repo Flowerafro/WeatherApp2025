@@ -148,7 +148,6 @@ const WeatherScene: React.FC<WeatherSceneProps> = ({
     };
 
 
-
     const renderAurora = () => (
         <div className="aurora-container" style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.6, overflow: 'hidden' }}>
             <motion.div

@@ -17,7 +17,6 @@ function App() {
 
   // displayedCity stores the location ONLY after a successful search.
   const [displayedCity, setDisplayedCity] = useState('');
-
   const [weather, setWeather] = useState<any>(null);
   const [activity, setActivity] = useState('');
   const [loading, setLoading] = useState(false);

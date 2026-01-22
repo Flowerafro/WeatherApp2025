@@ -343,3 +343,186 @@ body {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
+
+/* --- Mobile Responsiveness --- */
+@media only screen and (max-width: 500px) {
+
+  body,
+  .app-container {
+    height: 100dvh;
+    overflow: hidden;
+    max-width: 400px;
+  }
+
+  .dashboard-mode {
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+    padding-bottom: 0;
+  }
+
+  .dashboard-header {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    margin: 1rem;
+    text-align: center;
+    white-space: normal;
+  }
+
+  /* Search Bar */
+  .search-form {
+    /* width: 100%; */
+  }
+
+  .search-wrapper {
+    /* width: 100%; */
+  }
+
+  .search-input {
+    font-size: 16px;
+    padding: 0.9rem 1rem 0.9rem 3rem;
+    width: 250px;
+  }
+
+  .search-button {
+    margin-left: 0;
+  }
+
+  .suggestions-dropdown {
+    width: 100%;
+  }
+
+  .dashboard-main {
+    padding: 0;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 1rem;
+    height: 100%;
+  }
+
+  /* Weather Card */
+  .glass-card {
+    width: 90%;
+    max-width: none;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1.5rem;
+    backdrop-filter: blur(30px);
+  }
+
+  .main-temp {
+    font-size: 4.5rem;
+  }
+
+  .location-display span:last-child {
+    font-size: 1.5rem !important;
+  }
+
+  /* Toggle Button */
+  .dock-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(16, 11, 11, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    z-index: 100;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+
+  .dock-toggle-btn:hover {
+    background: rgba(16, 11, 11, 0.8);
+  }
+
+  /* Weather Dock - Fixed Bottom (Mobile) */
+  .data-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+    gap: 1rem;
+    background: rgba(51, 51, 51, 0.85);
+    backdrop-filter: blur(40px);
+    border-top: 1px solid rgba(80, 80, 80, 0.2);
+    align-items: flex-start;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metrics-grid {
+    display: block;
+  }
+
+  .dock-section {
+    width: 100%;
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+  }
+
+  .dock-left {
+    border-right: none;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-right {
+    justify-content: center;
+    padding-top: 0.5rem;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .metric-value {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .metric-item {
+    padding: 0.1rem 0.5rem;
+  }
+
+  .forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .forecast-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+
+  .forecast-temp {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}

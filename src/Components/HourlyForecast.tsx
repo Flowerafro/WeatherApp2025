@@ -16,11 +16,6 @@ export const HourlyForecast = ({ weather }: HourlyForecastProps) => {
     ];
 
     const getForecast = (hour: number) => {
-        // Find index for the specific hour today
-        // The API returns strictly hourly data aligned to the hour.
-
-        // We use getUTCHours because the time array is shifted by the offset, 
-        // effectively making the "UTC" component match the wall clock hour.
         const index = weather.hourly.time.findIndex((t: Date) => t.getUTCHours() === hour);
 
         if (index === -1) return null;
@@ -41,7 +36,6 @@ export const HourlyForecast = ({ weather }: HourlyForecastProps) => {
                 return (
                     <div key={item.label} className="forecast-item">
                         <Icon size={30} style={{ opacity: 0.9 }} />
-                        {/* Increased icon size slightly for Wi icons as they can be smaller */}
                         <span className="forecast-label">{item.label}</span>
                         <span className="forecast-temp">{data ? `${formatValue(data.temp)}°` : '--'}</span>
                     </div>
