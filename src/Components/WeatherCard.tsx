@@ -7,16 +7,15 @@ interface WeatherCardProps {
 }
 
 export const WeatherCard = ({ weather, activity }: WeatherCardProps) => {
-    // Note: 'location' prop is intentionally unused here if the user wanted it in the Header instead.
-    // However, the prompt says "Main Card ... with Temp, Condition, Suggested Activity, and a new Local Clock".
-    // AND "Top-Left Header: Location name and search bar". 
-    // So the Location Name (H2) I added previously should likely be REMOVED from here and controlled by App.tsx in the header.
-    // I will remove the 'location' h2 from here to strictly follow "Top-Left Header: Location name and search bar".
-
-    // Safe time parsing from SDK
     const displayTime = weather?.current?.time instanceof Date ? weather.current.time : new Date(weather?.current?.time);
     const isValidDate = !isNaN(displayTime.getTime());
-    const formattedTime = isValidDate ? displayTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : '--:--';
+    const formattedTime = isValidDate
+        ? displayTime.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        })
+        : '--:--';
 
 
     if (!weather) return null;
